@@ -2,91 +2,220 @@ import { GoogleGenAI } from "@google/genai";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
-export async function generateDashboardComponent(description: string, imageBase64?: string) {
+function getSavedThemeCSS() {
+  if (typeof globalThis === "undefined" || !("localStorage" in globalThis)) {
+    return "";
+  }
+
+  try {
+    return globalThis.localStorage?.getItem("architect-theme-css") || "";
+  } catch {
+    return "";
+  }
+}
+
+export async function generateDashboardComponent(
+  description: string,
+  imageBase64?: string,
+  themeCSS?: string
+) {
+  const activeThemeCSS = themeCSS?.trim() || getSavedThemeCSS().trim();
+
   const contents: any[] = [
     {
       role: "user",
       parts: [
         {
           text: `
+You are generating a production-ready shadcn/ui dashboard component for hotel analytics.
 
-You are generating a production-ready shadcn/ui dashboard component.
+The user wants visually polished, strategy-forward dashboard cards and chart components, not generic SaaS dashboards.
+The output must feel like a premium hospitality analytics product: simple, sharp, token-driven, and action-oriented.
 
-Return TWO blocks:
-1. A preview-safe TSX block with no imports/exports and a component named DashboardComponent.
-2. A production TSX block with proper imports and named export.
+Return exactly THREE fenced blocks in this order:
 
-Design requirements:
-- Use Card, CardHeader, CardTitle, CardDescription, CardContent.
-- Use ChartContainer, ChartTooltip, ChartTooltipContent for every Recharts chart.
-- Use CSS variables like var(--chart-1), var(--chart-2), not hardcoded random colors.
-- Use realistic hotel analytics data.
+1. A preview-safe TSX block.
+   - Fence language: tsx
+   - No import statements.
+   - No export statements.
+   - Component must be named DashboardComponent.
+   - This block must work inside a React Live preview where shadcn/ui, Recharts, Lucide icons, motion, cn, and ChartContainer helpers are already in scope.
+
+2. A production TSX block.
+   - Fence language: tsx
+   - Include proper imports from shadcn/ui, lucide-react, recharts, and @/components/ui/chart.
+   - Use a named export.
+   - This should be the file a developer would actually place into a project.
+
+3. A registry JSON block.
+   - Fence language: json
+   - Include name, type, dependencies, registryDependencies if needed, and files.
+
+CORE DESIGN REQUIREMENTS:
+- Use shadcn/ui composition: Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, Badge, Button, Separator, Tooltip, and HoverCard where useful.
+- Use ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, and ChartLegendContent for every Recharts chart.
+- Use realistic hotel analytics language and sample data: ADR, RevPAR, Occupancy, Pickup, Pace, Rooms Sold, Revenue, Segment, Channel, Market Mix, Booking Window, Forecast, Budget, LY/STLY.
 - Use compact KPI hierarchy: metric, delta, driver, micro-action.
-- Do not use raw divs for cards, badges, buttons, or charts when shadcn components exist.
-- Avoid gradients unless asked.
-- Avoid generic SaaS dashboard layouts.
-- Use hotel analytics language: ADR, RevPAR, Occupancy, Pickup, Pace, Segment, Channel.
+- Every component should answer: what happened, why it matters, and what the user should inspect next.
+- Do not create generic crypto, finance, ecommerce, or SaaS dashboards unless explicitly requested.
+- Do not overuse raw divs when a shadcn component exists.
+- Avoid gradients unless explicitly requested.
+- Avoid decorative clutter. Simplicity, hierarchy, and strong visual organization matter more than noise.
 
-You are a master React developer specializing in shadcn/ui and Recharts.
-Your task is to generate a high-quality, professional, and fully functional React component for a dashboard based on the user's description and optional reference image.
+ACTIVE THEME CSS:
+${activeThemeCSS || "No custom theme provided."}
 
-I am following the "shadcn-ui" skill guidelines for this environment.
+THEME RULES:
+- You MUST design against the active theme above when it is provided.
+- Use the provided CSS variables for colors, surfaces, borders, text, shadows, radius, and charts.
+- Do not invent random Tailwind palettes like emerald, blue, purple, slate, or zinc for primary visual styling unless the user specifically asks for them.
+- Prefer semantic shadcn token classes: bg-background, text-foreground, bg-card, text-card-foreground, text-muted-foreground, border-border, bg-muted, bg-accent, text-accent-foreground, bg-primary, text-primary-foreground.
+- For tinted surfaces, use token-aware classes such as bg-primary/10, bg-accent/10, bg-muted/60, border-border/60.
+- For charts, every chartConfig entry must use theme chart variables.
 
-AVAILABLE COMPONENTS (Do NOT import or export):
-- UI: Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, Button, Badge, Input, Textarea, Tabs, TabsList, TabsTrigger, TabsContent, Skeleton, ScrollArea, Table, TableHeader, TableBody, TableHead, TableRow, TableCell, TableCaption, Progress, Avatar, AvatarImage, AvatarFallback, Separator, Select, SelectTrigger, SelectValue, SelectContent, SelectItem, Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, Accordion, AccordionItem, AccordionTrigger, AccordionContent, Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, BreadcrumbEllipsis, Calendar, Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, Checkbox, Collapsible, CollapsibleTrigger, CollapsibleContent, Command, CommandDialog, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem, CommandShortcut, CommandSeparator, ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem, ContextMenuCheckboxItem, ContextMenuRadioItem, ContextMenuLabel, ContextMenuSeparator, ContextMenuShortcut, ContextMenuGroup, ContextMenuPortal, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuRadioGroup, Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger, DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuCheckboxItem, DropdownMenuRadioItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuGroup, DropdownMenuPortal, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuRadioGroup, HoverCard, HoverCardTrigger, HoverCardContent, InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot, Label, Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem, MenubarSeparator, MenubarShortcut, MenubarGroup, MenubarPortal, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarRadioGroup, MenubarCheckboxItem, MenubarRadioItem, MenubarLabel, NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuContent, NavigationMenuTrigger, NavigationMenuLink, NavigationMenuIndicator, Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious, Popover, PopoverTrigger, PopoverContent, RadioGroup, RadioGroupItem, ResizablePanelGroup, ResizablePanel, ResizableHandle, Sheet, SheetTrigger, SheetClose, SheetContent, SheetHeader, SheetFooter, SheetTitle, SheetDescription, Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader, SidebarInput, SidebarInset, SidebarMenu, SidebarMenuAction, SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem, SidebarMenuSkeleton, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, SidebarProvider, SidebarRail, SidebarSeparator, SidebarTrigger, Slider, Switch, Toggle, ToggleGroup, ToggleGroupItem, Tooltip, TooltipTrigger, TooltipContent, TooltipProvider, Alert, AlertTitle, AlertDescription, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger, AspectRatio, toast, cn
+CHART RULES:
+Every chartConfig entry must use theme variables like this:
+
+const chartConfig = {
+  revenue: {
+    label: "Revenue",
+    color: "var(--chart-1)",
+  },
+  occupancy: {
+    label: "Occupancy",
+    color: "var(--chart-2)",
+  },
+  revpar: {
+    label: "RevPAR",
+    color: "var(--chart-3)",
+  },
+};
+
+Every Recharts series must reference the shadcn chart color variable generated by ChartContainer:
+- <Bar dataKey="revenue" fill="var(--color-revenue)" />
+- <Line dataKey="occupancy" stroke="var(--color-occupancy)" />
+- <Area dataKey="revpar" fill="var(--color-revpar)" stroke="var(--color-revpar)" />
+
+Use this exact chart pattern when charts are needed:
+
+<ChartContainer config={chartConfig} className="h-[260px] w-full">
+  <BarChart accessibilityLayer data={chartData}>
+    <CartesianGrid vertical={false} />
+    <XAxis dataKey="date" tickLine={false} axisLine={false} />
+    <YAxis tickLine={false} axisLine={false} />
+    <ChartTooltip content={<ChartTooltipContent />} />
+    <Bar dataKey="revenue" fill="var(--color-revenue)" radius={[4, 4, 0, 0]} />
+  </BarChart>
+</ChartContainer>
+
+VISUAL FIDELITY RULES:
+${imageBase64 ? "A reference image has been provided. Match its layout, visual balance, spacing, label alignment, and component positioning carefully." : "No reference image was provided. Create a clean premium dashboard composition based on the description."}
+- Use <Separator orientation="vertical" /> for vertical dividers when comparing KPI columns.
+- Use equal-width grid/flex patterns for KPI groups, such as grid-cols-3, grid-cols-4, or flex-1.
+- Use font-bold tracking-tighter for large metric numbers.
+- Use font-mono for secondary technical values, deltas, timestamps, and confidence indicators.
+- Use Lucide icons intentionally: TrendingUp, TrendingDown, ArrowUpRight, ArrowDownRight, AlertTriangle, Info, Sparkles, Activity, BarChart3, LineChart, Hotel, CalendarDays.
+
+CRAFTSMANSHIP RULES:
+- Use text-muted-foreground for subtext.
+- Use border-border/60 and bg-card for core surfaces.
+- Use microcopy such as "Watch weekday pickup", "Inspect OTA mix", "Review pricing grid", "Pace risk emerging", "Weekend ADR strength".
+- Prefer one clear insight per card.
+- Include a small action or drill-in affordance when appropriate.
+- Ensure the component is responsive and uses w-full.
+- Layout should stack gracefully on mobile.
+
+AVAILABLE PREVIEW COMPONENTS:
+The preview-safe block has these already in global scope. Do not import them in block 1.
+- shadcn/ui: Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, Button, Badge, Input, Textarea, Tabs, TabsList, TabsTrigger, TabsContent, Skeleton, ScrollArea, Table, TableHeader, TableBody, TableHead, TableRow, TableCell, TableCaption, Progress, Avatar, AvatarImage, AvatarFallback, Separator, Select, SelectTrigger, SelectValue, SelectContent, SelectItem, Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, Accordion, AccordionItem, AccordionTrigger, AccordionContent, Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, BreadcrumbEllipsis, Calendar, Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, Checkbox, Collapsible, CollapsibleTrigger, CollapsibleContent, Command, CommandDialog, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem, CommandShortcut, CommandSeparator, ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem, ContextMenuCheckboxItem, ContextMenuRadioItem, ContextMenuLabel, ContextMenuSeparator, ContextMenuShortcut, ContextMenuGroup, ContextMenuPortal, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuRadioGroup, Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger, DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuCheckboxItem, DropdownMenuRadioItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuGroup, DropdownMenuPortal, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuRadioGroup, HoverCard, HoverCardTrigger, HoverCardContent, InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot, Label, Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem, MenubarSeparator, MenubarShortcut, MenubarGroup, MenubarPortal, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarRadioGroup, MenubarCheckboxItem, MenubarRadioItem, MenubarLabel, NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuContent, NavigationMenuTrigger, NavigationMenuLink, NavigationMenuIndicator, Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious, Popover, PopoverTrigger, PopoverContent, RadioGroup, RadioGroupItem, ResizablePanelGroup, ResizablePanel, ResizableHandle, Sheet, SheetTrigger, SheetClose, SheetContent, SheetHeader, SheetFooter, SheetTitle, SheetDescription, Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader, SidebarInput, SidebarInset, SidebarMenu, SidebarMenuAction, SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem, SidebarMenuSkeleton, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, SidebarProvider, SidebarRail, SidebarSeparator, SidebarTrigger, Slider, Switch, Toggle, ToggleGroup, ToggleGroupItem, Tooltip, TooltipTrigger, TooltipContent, TooltipProvider, Alert, AlertTitle, AlertDescription, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger, AspectRatio, toast, cn
 - Charts: ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent, ChartStyle
 - Recharts: BarChart, Bar, LineChart, Line, AreaChart, Area, PieChart, Pie, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Cell, Tooltip, Legend
-- Icons: All Lucide icons (Search, Home, TrendingUp, TrendingDown, ArrowUp, ArrowDown, etc.)
+- Icons: All Lucide icons are available directly by name.
 
-Rules:
-1. Name it 'DashboardComponent'. ABSOLUTELY NO 'import' or 'export' keywords. The result must be a single self-contained function.
-2. ALL components and icons listed below are ALREADY in the global scope. You MUST use them directly by name (e.g., <Card />, <Separator />) instead of raw <div>s where possible.
-3. Visual Fidelity (CRITICAL): Replicate the reference image EXACTLY. 
-   - Vertical Dividers: Use the <Separator orientation="vertical" /> component with 'h-full' and 'border-dashed'.
-   - Column Balance: For the 3-column visitor breakdown, use 'flex-1' or 'grid-cols-3' to ensure equal width distribution.
-   - Typography: Use 'font-bold tracking-tighter' for large metric numbers. Use 'font-mono' for secondary technical values.
-   - Icons: If the image shows arrows (like in the bottom row), use Lucide icons like <TrendingUp />, <TrendingDown />, or <MoveUpRight />.
-4. Craftsmanship: 
-   - Use 'text-muted-foreground' for subtext.
-   - Use 'border-opacity' or light background colors (e.g., 'bg-emerald-500/10') for highlighting.
-   - Match the color palette of the image: if it's dark navy/emerald, use those specific Tailwind colors.
-5. Charts: Use 'ChartContainer' with a 'config' object. Use Recharts components (BarChart, Bar, etc.) if a chart is visible.
-6. Responsive: Always use 'w-full' and ensure layout stacks on mobile if it's too wide.
+User Description:
+"${description}"
 
-User Description: "${description}"
-${imageBase64 ? "CRITICAL: A reference image has been provided. Match the layout, visual balance, and component positioning perfectly. Pay special attention to vertical lines, alignment of labels, and the visual weight of different elements." : ""}
+OUTPUT FORMAT EXAMPLE:
 
-Output Format:
 \`\`\`tsx
-// Define chartData and chartConfig constants here
-const chartData = [ ... ];
-const chartConfig = { ... };
+const chartData = [
+  { date: "Mon", revenue: 18400, occupancy: 72 },
+  { date: "Tue", revenue: 21300, occupancy: 76 },
+];
+
+const chartConfig = {
+  revenue: { label: "Revenue", color: "var(--chart-1)" },
+  occupancy: { label: "Occupancy", color: "var(--chart-2)" },
+};
 
 const DashboardComponent = () => {
-  // Component logic here
   return (
-    <div className="space-y-4">
-      <Card>
-        <CardHeader>
-          <CardTitle>Dashboard Title</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {/* Chart or Data view here */}
-        </CardContent>
-      </Card>
-    </div>
+    <Card className="w-full border-border/60 bg-card text-card-foreground">
+      <CardHeader>
+        <CardTitle>Revenue Pulse</CardTitle>
+        <CardDescription>Pickup and occupancy signals for the next 7 days</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <ChartContainer config={chartConfig} className="h-[260px] w-full">
+          <BarChart accessibilityLayer data={chartData}>
+            <CartesianGrid vertical={false} />
+            <XAxis dataKey="date" tickLine={false} axisLine={false} />
+            <ChartTooltip content={<ChartTooltipContent />} />
+            <Bar dataKey="revenue" fill="var(--color-revenue)" radius={[4, 4, 0, 0]} />
+          </BarChart>
+        </ChartContainer>
+      </CardContent>
+    </Card>
   );
 };
 \`\`\`
 
+\`\`\`tsx
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+
+const chartData = [
+  { date: "Mon", revenue: 18400, occupancy: 72 },
+  { date: "Tue", revenue: 21300, occupancy: 76 },
+];
+
+const chartConfig = {
+  revenue: { label: "Revenue", color: "var(--chart-1)" },
+  occupancy: { label: "Occupancy", color: "var(--chart-2)" },
+};
+
+export function RevenuePulseCard() {
+  return (
+    <Card className="w-full border-border/60 bg-card text-card-foreground">
+      <CardHeader>
+        <CardTitle>Revenue Pulse</CardTitle>
+        <CardDescription>Pickup and occupancy signals for the next 7 days</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <ChartContainer config={chartConfig} className="h-[260px] w-full">
+          <BarChart accessibilityLayer data={chartData}>
+            <CartesianGrid vertical={false} />
+            <XAxis dataKey="date" tickLine={false} axisLine={false} />
+            <ChartTooltip content={<ChartTooltipContent />} />
+            <Bar dataKey="revenue" fill="var(--color-revenue)" radius={[4, 4, 0, 0]} />
+          </BarChart>
+        </ChartContainer>
+      </CardContent>
+    </Card>
+  );
+}
+\`\`\`
+
 \`\`\`json
 {
-  "name": "dashboard-component",
+  "name": "revenue-pulse-card",
   "type": "registry:ui",
   "dependencies": ["recharts", "lucide-react"],
+  "registryDependencies": ["card", "badge", "button", "chart", "separator", "tooltip"],
   "files": [
     {
-      "path": "components/dashboard-component.tsx",
+      "path": "components/revenue-pulse-card.tsx",
       "type": "registry:ui"
     }
   ]
@@ -101,14 +230,14 @@ const DashboardComponent = () => {
   if (imageBase64) {
     contents[0].parts.push({
       inlineData: {
-        data: imageBase64.split(',')[1], // Remove prefix like "data:image/png;base64,"
+        data: imageBase64.split(',')[1],
         mimeType: imageBase64.match(/data:(.*?);/)?.[1] || "image/png"
       }
     });
   }
 
   const response = await ai.models.generateContent({
-    model: "gemini-2.0-flash", // Use a multimodal model
+    model: "gemini-2.0-flash",
     contents: contents,
   });
 
