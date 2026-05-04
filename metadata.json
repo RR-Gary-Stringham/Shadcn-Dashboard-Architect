@@ -1,0 +1,6 @@
+{
+  "name": "Shadcn Dashboard Architect",
+  "description": "AI-powered dashboard component generator for shadcn/ui. Describe a chart or dashboard element and get production-ready code with live preview.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["AI Component Generation", "Live Chart Previews", "Code Export"]
+}
