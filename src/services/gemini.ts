@@ -9,6 +9,24 @@ export async function generateDashboardComponent(description: string, imageBase6
       parts: [
         {
           text: `
+
+You are generating a production-ready shadcn/ui dashboard component.
+
+Return TWO blocks:
+1. A preview-safe TSX block with no imports/exports and a component named DashboardComponent.
+2. A production TSX block with proper imports and named export.
+
+Design requirements:
+- Use Card, CardHeader, CardTitle, CardDescription, CardContent.
+- Use ChartContainer, ChartTooltip, ChartTooltipContent for every Recharts chart.
+- Use CSS variables like var(--chart-1), var(--chart-2), not hardcoded random colors.
+- Use realistic hotel analytics data.
+- Use compact KPI hierarchy: metric, delta, driver, micro-action.
+- Do not use raw divs for cards, badges, buttons, or charts when shadcn components exist.
+- Avoid gradients unless asked.
+- Avoid generic SaaS dashboard layouts.
+- Use hotel analytics language: ADR, RevPAR, Occupancy, Pickup, Pace, Segment, Channel.
+
 You are a master React developer specializing in shadcn/ui and Recharts.
 Your task is to generate a high-quality, professional, and fully functional React component for a dashboard based on the user's description and optional reference image.
 
