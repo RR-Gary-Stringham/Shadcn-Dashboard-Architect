@@ -32,6 +32,44 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, TableCaption } from '@/components/ui/table';
+import { Progress } from '@/components/ui/progress';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Separator } from '@/components/ui/separator';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGroup, SelectLabel } from '@/components/ui/select';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { AspectRatio } from '@/components/ui/aspect-ratio';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, BreadcrumbEllipsis } from '@/components/ui/breadcrumb';
+import { Calendar } from '@/components/ui/calendar';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
+import { Command, CommandDialog, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem, CommandShortcut, CommandSeparator } from '@/components/ui/command';
+import { ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem, ContextMenuCheckboxItem, ContextMenuRadioItem, ContextMenuLabel, ContextMenuSeparator, ContextMenuShortcut, ContextMenuGroup, ContextMenuPortal, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuRadioGroup } from '@/components/ui/context-menu';
+import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuCheckboxItem, DropdownMenuRadioItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuGroup, DropdownMenuPortal, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuRadioGroup } from '@/components/ui/dropdown-menu';
+import { HoverCard, HoverCardTrigger, HoverCardContent } from '@/components/ui/hover-card';
+import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@/components/ui/input-otp';
+import { Label } from '@/components/ui/label';
+import { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem, MenubarSeparator, MenubarShortcut, MenubarGroup, MenubarPortal, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarRadioGroup, MenubarCheckboxItem, MenubarRadioItem, MenubarLabel } from '@/components/ui/menubar';
+import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuContent, NavigationMenuTrigger, NavigationMenuLink, NavigationMenuIndicator, navigationMenuTriggerStyle } from '@/components/ui/navigation-menu';
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
+import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/components/ui/resizable';
+import { Sheet, SheetTrigger, SheetClose, SheetContent, SheetHeader, SheetFooter, SheetTitle, SheetDescription } from '@/components/ui/sheet';
+import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader, SidebarInput, SidebarInset, SidebarMenu, SidebarMenuAction, SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem, SidebarMenuSkeleton, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, SidebarProvider, SidebarRail, SidebarSeparator, SidebarTrigger, useSidebar } from '@/components/ui/sidebar';
+import { Slider } from '@/components/ui/slider';
+import { Switch } from '@/components/ui/switch';
+import { Toggle, toggleVariants } from '@/components/ui/toggle';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@/components/ui/tooltip';
+import { Toaster } from '@/components/ui/sonner';
+import { toast } from 'sonner';
+
 import { 
   ChartContainer, 
   ChartTooltip, 
@@ -65,7 +103,9 @@ const liveScope = {
   motion,
   AnimatePresence,
   ...Recharts,
+  Recharts,
   ...LucideIcons,
+  LucideIcons,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
@@ -88,6 +128,200 @@ const liveScope = {
   Badge,
   Skeleton,
   ScrollArea,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  TableCaption,
+  Progress,
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  Separator,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  SelectGroup,
+  SelectLabel,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+  Alert, 
+  AlertTitle, 
+  AlertDescription,
+  AlertDialog, 
+  AlertDialogAction, 
+  AlertDialogCancel, 
+  AlertDialogContent, 
+  AlertDialogDescription, 
+  AlertDialogFooter, 
+  AlertDialogHeader, 
+  AlertDialogTitle, 
+  AlertDialogTrigger,
+  AspectRatio,
+  Breadcrumb, 
+  BreadcrumbItem, 
+  BreadcrumbLink, 
+  BreadcrumbList, 
+  BreadcrumbPage, 
+  BreadcrumbSeparator, 
+  BreadcrumbEllipsis,
+  Calendar,
+  Carousel, 
+  CarouselContent, 
+  CarouselItem, 
+  CarouselNext, 
+  CarouselPrevious,
+  Checkbox,
+  Collapsible, 
+  CollapsibleTrigger, 
+  CollapsibleContent,
+  Command, 
+  CommandDialog, 
+  CommandInput, 
+  CommandList, 
+  CommandEmpty, 
+  CommandGroup, 
+  CommandItem, 
+  CommandShortcut, 
+  CommandSeparator,
+  ContextMenu, 
+  ContextMenuTrigger, 
+  ContextMenuContent, 
+  ContextMenuItem, 
+  ContextMenuCheckboxItem, 
+  ContextMenuRadioItem, 
+  ContextMenuLabel, 
+  ContextMenuSeparator, 
+  ContextMenuShortcut, 
+  ContextMenuGroup, 
+  ContextMenuPortal, 
+  ContextMenuSub, 
+  ContextMenuSubContent, 
+  ContextMenuSubTrigger, 
+  ContextMenuRadioGroup,
+  Drawer, 
+  DrawerClose, 
+  DrawerContent, 
+  DrawerDescription, 
+  DrawerFooter, 
+  DrawerHeader, 
+  DrawerTitle, 
+  DrawerTrigger,
+  DropdownMenu, 
+  DropdownMenuTrigger, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuCheckboxItem, 
+  DropdownMenuRadioItem, 
+  DropdownMenuLabel, 
+  DropdownMenuSeparator, 
+  DropdownMenuShortcut, 
+  DropdownMenuGroup, 
+  DropdownMenuPortal, 
+  DropdownMenuSub, 
+  DropdownMenuSubContent, 
+  DropdownMenuSubTrigger, 
+  DropdownMenuRadioGroup,
+  HoverCard, 
+  HoverCardTrigger, 
+  HoverCardContent,
+  InputOTP, 
+  InputOTPGroup, 
+  InputOTPSeparator, 
+  InputOTPSlot,
+  Label,
+  Menubar, 
+  MenubarMenu, 
+  MenubarTrigger, 
+  MenubarContent, 
+  MenubarItem, 
+  MenubarSeparator, 
+  MenubarShortcut, 
+  MenubarGroup, 
+  MenubarPortal, 
+  MenubarSub, 
+  MenubarSubContent, 
+  MenubarSubTrigger, 
+  MenubarRadioGroup, 
+  MenubarCheckboxItem, 
+  MenubarRadioItem, 
+  MenubarLabel,
+  NavigationMenu, 
+  NavigationMenuList, 
+  NavigationMenuItem, 
+  NavigationMenuContent, 
+  NavigationMenuTrigger, 
+  NavigationMenuLink, 
+  NavigationMenuIndicator, 
+  navigationMenuTriggerStyle,
+  Pagination, 
+  PaginationContent, 
+  PaginationEllipsis, 
+  PaginationItem, 
+  PaginationLink, 
+  PaginationNext, 
+  PaginationPrevious,
+  Popover, 
+  PopoverTrigger, 
+  PopoverContent,
+  RadioGroup, 
+  RadioGroupItem,
+  ResizablePanelGroup, 
+  ResizablePanel, 
+  ResizableHandle,
+  Sheet, 
+  SheetTrigger, 
+  SheetClose, 
+  SheetContent, 
+  SheetHeader, 
+  SheetFooter, 
+  SheetTitle, 
+  SheetDescription,
+  Sidebar, 
+  SidebarContent, 
+  SidebarFooter, 
+  SidebarGroup, 
+  SidebarHeader, 
+  SidebarInput, 
+  SidebarInset, 
+  SidebarMenu, 
+  SidebarMenuAction, 
+  SidebarMenuBadge, 
+  SidebarMenuButton, 
+  SidebarMenuItem, 
+  SidebarMenuSkeleton, 
+  SidebarMenuSub, 
+  SidebarMenuSubButton, 
+  SidebarMenuSubItem, 
+  SidebarProvider, 
+  SidebarRail, 
+  SidebarSeparator, 
+  SidebarTrigger, 
+  useSidebar,
+  Slider,
+  Switch,
+  Toggle, 
+  ToggleGroup, 
+  ToggleGroupItem,
+  Tooltip, 
+  TooltipTrigger, 
+  TooltipContent, 
+  TooltipProvider,
+  Toaster,
+  toast,
   cn,
 };
 
@@ -98,6 +332,20 @@ export default function App() {
   const [generatedCode, setGeneratedCode] = useState<{ component: string; registry: string } | null>(null);
   const [copied, setCopied] = useState(false);
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  const [themeCSS, setThemeCSS] = useState('');
+
+  // Load saved theme on mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('architect-theme-css');
+    if (savedTheme) {
+      setThemeCSS(savedTheme);
+    }
+  }, []);
+
+  const handleSaveTheme = () => {
+    localStorage.setItem('architect-theme-css', themeCSS);
+    toast.success('Theme saved to local storage');
+  };
 
   // Apply dark mode class
   useEffect(() => {
@@ -158,7 +406,7 @@ ${mainCode.trim()
   .replace(/export\s+{[^}]*};?/g, '')
   .replace(/\s+satisfies\s+[A-Z]\w+/g, '')}
 
-render(<${componentName} />);`;
+render(<DashboardComponent />);`;
 
       setGeneratedCode({ 
         component: parsed.component, 
@@ -224,9 +472,9 @@ render(<${componentName} />);`;
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto p-4 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 h-[calc(100vh-64px)]">
+      <main className="max-w-7xl mx-auto p-4 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:h-[calc(100vh-64px)]">
         {/* Left Panel: Input */}
-        <div className="lg:col-span-4 flex flex-col gap-6">
+        <div className="lg:col-span-4 flex flex-col gap-6 lg:overflow-y-auto lg:pr-2">
           <Card className="border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none bg-white dark:bg-slate-900">
             <CardHeader className="pb-4">
               <CardTitle className="text-lg flex items-center gap-2">
@@ -355,6 +603,14 @@ render(<${componentName} />);`;
                   <FileJson className="w-3.5 h-3.5" />
                   Registry
                 </TabsTrigger>
+                <TabsTrigger value="inventory" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:text-emerald-500 flex items-center gap-2">
+                  <Layout className="w-3.5 h-3.5" />
+                  Inventory
+                </TabsTrigger>
+                <TabsTrigger value="theme" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:text-emerald-500 flex items-center gap-2">
+                  <Sun className="w-3.5 h-3.5" />
+                  Theme
+                </TabsTrigger>
                 <TabsTrigger value="debug" className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:text-emerald-500 flex items-center gap-2">
                   <Terminal className="w-3.5 h-3.5" />
                   Logs
@@ -376,7 +632,7 @@ render(<${componentName} />);`;
             </div>
 
             <Card className="flex-1 overflow-hidden border-slate-200 dark:border-slate-800 shadow-2xl bg-white dark:bg-slate-900 flex flex-col relative min-h-0">
-              <TabsContent value="preview" className="flex-1 m-0 focus-visible:outline-none">
+              <TabsContent value="preview" className="flex-1 m-0 focus-visible:outline-none flex flex-col min-h-0">
                 <div className="h-full flex flex-col">
                   {!generatedCode && !isGenerating && (
                     <div className="flex-1 flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 p-8 text-center">
@@ -410,14 +666,24 @@ render(<${componentName} />);`;
 
                   {generatedCode && !isGenerating && (
                     <div className="flex-1 p-6 overflow-auto">
+                      <style>
+                        {themeCSS ? themeCSS.replace(/:root/g, '#preview-theme-container').replace(/\.dark/g, '.dark #preview-theme-container') : ''}
+                      </style>
                       <LiveProvider 
                         code={previewCode} 
                         scope={liveScope} 
                         noInline={true}
                         theme={theme === 'dark' ? themes.vsDark : themes.github}
                       >
-                        <div className="p-4 bg-slate-50/50 dark:bg-slate-950/50 rounded-2xl border border-dashed border-slate-200 dark:border-slate-800 min-h-full flex flex-col">
-                          <LivePreview className="w-full flex-1" />
+                        <div id="preview-theme-container" className="p-4 bg-slate-50/50 dark:bg-slate-950/50 rounded-2xl border border-dashed border-slate-200 dark:border-slate-800 min-h-full flex flex-col">
+                          <SidebarProvider>
+                            <TooltipProvider>
+                              <div className="w-full h-full flex-1">
+                                <LivePreview className="w-full h-full" />
+                                <Toaster />
+                              </div>
+                            </TooltipProvider>
+                          </SidebarProvider>
                         </div>
                         <div className="mt-4 p-4 bg-red-500/10 text-red-500 font-mono text-xs rounded-xl border border-red-500/20 flex flex-col gap-2">
                            <div className="flex items-center gap-2 font-bold">
@@ -432,7 +698,7 @@ render(<${componentName} />);`;
                 </div>
               </TabsContent>
 
-              <TabsContent value="code" className="flex-1 m-0 focus-visible:outline-none">
+              <TabsContent value="code" className="flex-1 m-0 focus-visible:outline-none flex flex-col min-h-0">
                 {generatedCode ? (
                   <ScrollArea className="h-full bg-[#1e1e1e]">
                     <div className="p-4">
@@ -458,7 +724,7 @@ render(<${componentName} />);`;
                 )}
               </TabsContent>
 
-              <TabsContent value="registry" className="flex-1 m-0 focus-visible:outline-none">
+              <TabsContent value="registry" className="flex-1 m-0 focus-visible:outline-none flex flex-col min-h-0">
                 {generatedCode ? (
                   <ScrollArea className="h-full bg-slate-900/50">
                     <div className="p-4">
@@ -473,8 +739,119 @@ render(<${componentName} />);`;
                   </div>
                 )}
               </TabsContent>
+
+              <TabsContent value="inventory" className="flex-1 m-0 focus-visible:outline-none flex flex-col min-h-0">
+                <ScrollArea className="h-full bg-slate-50 dark:bg-slate-950">
+                  <div className="p-6 space-y-6">
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <h3 className="text-sm font-bold flex items-center gap-2">
+                          <Layout className="w-4 h-4 text-emerald-500" />
+                          Shadcn UI Inventory
+                        </h3>
+                        <Badge variant="secondary" className="bg-emerald-500/10 text-emerald-600 border-emerald-500/20">
+                          { [
+                            'Card', 'Button', 'Badge', 'Input', 'Textarea', 'Tabs', 'Table', 'Progress', 'Avatar', 
+                            'Separator', 'Select', 'Dialog', 'Accordion', 'Skeleton', 'ScrollArea', 'Alert', 
+                            'AlertDialog', 'AspectRatio', 'Breadcrumb', 'Calendar', 'Carousel', 'Checkbox', 
+                            'Collapsible', 'Command', 'ContextMenu', 'Drawer', 'DropdownMenu', 'HoverCard', 
+                            'InputOTP', 'Label', 'Menubar', 'NavigationMenu', 'Pagination', 'Popover', 
+                            'RadioGroup', 'Resizable', 'Sheet', 'Sidebar', 'Slider', 'Switch', 'Toggle', 
+                            'ToggleGroup', 'Tooltip', 'Chart'
+                          ].length } Components
+                        </Badge>
+                      </div>
+                      <p className="text-xs text-slate-500">These primitive components are injected into the generator's global scope. Do not import them.</p>
+                      
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                        {[
+                          'Accordion', 'Alert', 'AlertDialog', 'AspectRatio', 'Avatar', 'Badge', 
+                          'Breadcrumb', 'Button', 'Calendar', 'Card', 'Carousel', 'Chart', 
+                          'Checkbox', 'Collapsible', 'Command', 'ContextMenu', 'Dialog', 'Drawer', 
+                          'DropdownMenu', 'HoverCard', 'Input', 'InputOTP', 'Label', 'Menubar', 
+                          'NavigationMenu', 'Pagination', 'Popover', 'Progress', 'RadioGroup', 
+                          'Resizable', 'ScrollArea', 'Select', 'Separator', 'Sheet', 'Sidebar', 
+                          'Skeleton', 'Slider', 'Sonner', 'Switch', 'Table', 'Tabs', 'Textarea', 
+                          'Toggle', 'ToggleGroup', 'Tooltip'
+                        ].map(c => (
+                          <div key={c} className="p-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 text-[10px] font-mono flex items-center justify-center text-center">
+                            {c}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="space-y-4">
+                      <h3 className="text-sm font-bold flex items-center gap-2">
+                        <Sparkles className="w-4 h-4 text-blue-500" />
+                        Libraries
+                      </h3>
+                      <div className="flex gap-2">
+                        <Badge variant="outline">Lucide Icons</Badge>
+                        <Badge variant="outline">Recharts</Badge>
+                        <Badge variant="outline">Motion</Badge>
+                        <Badge variant="outline">Tailwind CSS</Badge>
+                      </div>
+                    </div>
+                  </div>
+                </ScrollArea>
+              </TabsContent>
+
+              <TabsContent value="theme" className="flex-1 m-0 focus-visible:outline-none flex flex-col min-h-0">
+                <ScrollArea className="h-full bg-slate-50 dark:bg-slate-950">
+                  <div className="p-6 space-y-6">
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <h3 className="text-sm font-bold flex items-center gap-2">
+                          <Sun className="w-4 h-4 text-orange-500" />
+                          Live Theme Customization
+                        </h3>
+                        <Badge variant="outline" className="text-[10px] uppercase border-emerald-500/20 text-emerald-500 bg-emerald-500/5 animate-pulse">
+                          Live Preview
+                        </Badge>
+                      </div>
+                      <p className="text-xs text-slate-500">
+                        Paste your Shadcn CSS variables here (from themes.shadcn.com). 
+                        Changes will be applied instantly to the preview mockup.
+                      </p>
+                      
+                      <div className="space-y-2">
+                        <Label className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">CSS Variables</Label>
+                        <Textarea 
+                          className="min-h-[300px] font-mono text-[10px] bg-slate-950 text-slate-300 border-slate-800"
+                          placeholder=":root {&#10;  --background: 0 0% 100%;&#10;  --primary: 222.2 47.4% 11.2%;&#10;}&#10;&#10;.dark {&#10;  --background: 222.2 84% 4.9%;&#10;}"
+                          value={themeCSS}
+                          onChange={(e) => setThemeCSS(e.target.value)}
+                        />
+                      </div>
+                      
+                      <div className="pt-4 flex gap-4">
+                        <Button 
+                          size="sm" 
+                          className="text-[10px] h-7 bg-emerald-600 hover:bg-emerald-700"
+                          onClick={handleSaveTheme}
+                        >
+                          <Check className="w-3 h-3 mr-1" />
+                          Save Theme
+                        </Button>
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="text-[10px] h-7"
+                          onClick={() => {
+                            setThemeCSS('');
+                            localStorage.removeItem('architect-theme-css');
+                            toast.info('Theme reset to default');
+                          }}
+                        >
+                          Reset to Default
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </ScrollArea>
+              </TabsContent>
               
-              <TabsContent value="debug" className="flex-1 m-0 focus-visible:outline-none">
+              <TabsContent value="debug" className="flex-1 m-0 focus-visible:outline-none flex flex-col min-h-0">
                 <ScrollArea className="h-full bg-slate-950">
                   <div className="p-4 space-y-4">
                     <div className="space-y-2">
